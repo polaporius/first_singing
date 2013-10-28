@@ -29,39 +29,36 @@ end
 
 
 post '/msg' do
-
+our_message = '123'
   options = 
   {
     :to => params[:email],
     :from => 'nneowoolf@gmail.com',
     :subject => 'Test',
     :body => 'Test Text',
-    :html_body => params[:text],
+    :html_body => @params[:text],
     :via => :smtp,
     :via_options => 
       {
       :address => 'smtp.gmail.com',
       :port => 587,
       :enable_starttls_auto => true,
-      :user_name => '',
+      :user_name => 'nneowoolf@gmail.com',
       :password => '',
       :authentication => :plain,
       :domain => 'localhost'
       }
   }
-  @result = "Хер знает что"
+  
+  redirect '/sended'
   Pony.mail(options)
-
-  #redirect '/sended'
-  end
-
+end
 
 get '/sended' do
+  
+  puts @params[:text]
   erb :sended
 end
 
-#get '/msg' do
 
- # erb :msg
-#end
 
