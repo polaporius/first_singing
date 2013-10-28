@@ -21,19 +21,16 @@ end
 
 
 get '/msg' do
-  
-
   erb :msg
 end
 
 
 
 post '/msg' do
-our_message = '123'
   options = 
   {
     :to => params[:email],
-    :from => 'nneowoolf@gmail.com',
+    :from => 'put your email here',
     :subject => 'Test',
     :body => 'Test Text',
     :html_body => @params[:text],
@@ -43,8 +40,8 @@ our_message = '123'
       :address => 'smtp.gmail.com',
       :port => 587,
       :enable_starttls_auto => true,
-      :user_name => 'nneowoolf@gmail.com',
-      :password => '',
+      :user_name => 'put your email here',
+      :password => 'put your password',
       :authentication => :plain,
       :domain => 'localhost'
       }
