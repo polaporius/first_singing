@@ -43,8 +43,8 @@ post '/msg' do
       :address => 'smtp.gmail.com',
       :port => 587,
       :enable_starttls_auto => true,
-      :user_name => 'nneowoolf@gmail.com',
-      :password => 'fgj23hrt',
+      :user_name => '',
+      :password => '',
       :authentication => :plain,
       :domain => 'localhost'
       }
