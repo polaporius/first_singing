@@ -24,14 +24,13 @@ get '/msg' do
 end
 
 post '/msg' do
-  puts params
   @errors << 'Email is not valid'  unless params[:email].match EMAIL_REGEX
   @errors << 'Text must have 1 letter at least' unless params[:text].empty?
   unless @errors.any?
     options = 
     {
-      :to => params[:email],
-      :from => 'put your email here',
+      :to => 'nneowoolf@gmail.com',
+      :from => params[:email],
       :subject => 'Test',
       :body => 'Test Text',
       :html_body => @params[:text],
@@ -41,8 +40,8 @@ post '/msg' do
         :address => 'smtp.gmail.com',
         :port => 587,
         :enable_starttls_auto => true,
-        :user_name => 'put your email here',
-        :password => 'put your password',
+        :user_name => 'nneowoolf@gmail.com',
+        :password => 'fgj23hrt23rust',
         :authentication => :plain,
         :domain => 'localhost'
         }
