@@ -25,14 +25,28 @@
             <li <% if request.path['bio'] %> class="active" <% end %>><a href="/bio">Biography</a></li>
             <li <% if request.path['hobby'] %> class="active" <% end %>><a href="/hobby">Hobby</a></li>
             <li <% if request.path['msg'] %> class="active" <% end %>><a href="/msg">Message</a></li>
-            
           </ul>
+          <% if user? %>
+                <form class="nav navbar-right" method="post" action="/logout">
+                <input type="submit" class="btn btn-success" value="Logout">
+                <p>Welcome, User</p>
+                </form>
+          <% else %>
+              <form action = "login" method = "post" class="navbar-form navbar-right">
+                <div class="form-group">
+                  <input type="text" name="username" placeholder="Login" class="form-control">
+                </div>
+                <div class="form-group">
+                   <input type="password" name="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+              </form>
+          <%end%>
         </div>
       </div>
     </div>
 
     <div class="container">
-      
       <%=yield %>
     </div> 
     <script src="/js/jquery.js"></script>

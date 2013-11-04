@@ -1,7 +1,26 @@
 require 'sinatra'
 require 'pony'
+require_relative './helpers/validation'
 
-EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+set :username,'user'
+set :token,'shakenN0tstirr3d'
+set :password,'resu'
+
+helpers do
+  def user? ; request.cookies[settings.username] == settings.token ; end
+  def protected! ; halt [ 401, 'Not Authorized' ] unless user? ; end
+end
+
+post '/login' do
+  if params['username']==settings.username&&params['password']==settings.password
+    response.set_cookie(settings.username,settings.token) 
+    redirect '/'
+  else
+    "Username or Password incorrect"
+  end
+end
+
+post('/logout'){ response.set_cookie(settings.username, false) ; redirect '/' }
 
 get '/' do
   erb :index
@@ -15,47 +34,43 @@ get '/hobby' do
   erb :hobby
 end
 
-before '/msg' do
-  @errors = []
-end
-
 get '/msg' do
   erb :msg
 end
 
+before '/msg' do
+  @errors = []
+end
+
 post '/msg' do
-  @errors << 'Email is not valid'  unless params[:email].match EMAIL_REGEX
-  @errors << 'Text must have 1 letter at least' if params[:text].empty?
+  validation
   unless @errors.any?
     options = 
     {
       :to => 'nneowoolf@gmail.com',
-      :from => params[:email],
-      :subject => 'Test',
+      :from => params[:from],
+      :subject => 'Feedback',
       :body => "from: #{params[:email]}#{params[:text]}",
+      :html_body => "from: #{params[:email]} #{params[:text]}",
       :via => :smtp,
       :via_options => 
         {
         :address => 'smtp.gmail.com',
         :port => 587,
         :enable_starttls_auto => true,
-        :user_name => 'put your login',
-        :password => 'put your password',
+        :user_name => 'put your email',
+        :password => 'put your pass',
         :authentication => :plain,
         :domain => 'localhost'
         }
     }  
-    redirect '/sended'
     Pony.mail(options)
-  else
-    erb :msg
-  end
-
+    redirect '/sended'
+   else
+     erb :msg
+   end
 end
 
 get '/sended' do
   erb :sended
 end
-
-
-
