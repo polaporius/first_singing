@@ -5,6 +5,23 @@ require_relative './helpers/validation'
 
 helpers Valid
 
+ActiveRecord::Base.establish_connection(
+  :adapter  => "sqlite3",
+  :host     => "localhost",
+  :database => "fs1"
+)
+
+class User < ActiveRecord::Base
+end
+
+if ActiveRecord::Migration.table :users?
+    ActiveRecord::Migration.create_table :users do |t|
+      t.string :name
+    end
+  else
+    puts "Zopo"
+  end
+
 configure do
   enable :sessions
   set :session_secret, 'secret'
