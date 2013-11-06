@@ -26,7 +26,7 @@
             <li <% if request.path['hobby'] %> class="active" <% end %>><a href="/hobby">Hobby</a></li>
             <li <% if request.path['msg'] %> class="active" <% end %>><a href="/msg">Message</a></li>
           </ul>
-          <% if user? %>
+          <% unless session[:foo]==nil %>
                 <form class="nav navbar-right" method="post" action="/logout">
                 <input type="submit" class="btn btn-success" value="Logout">
                 <p>Welcome, User</p>

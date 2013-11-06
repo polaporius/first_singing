@@ -1,26 +1,24 @@
 require 'sinatra'
 require 'pony'
+require 'active_record'
 require_relative './helpers/validation'
 
-set :username,'user'
-set :token,'shakenN0tstirr3d'
-set :password,'resu'
+helpers Valid
 
-helpers do
-  def user? ; request.cookies[settings.username] == settings.token ; end
-  def protected! ; halt [ 401, 'Not Authorized' ] unless user? ; end
+configure do
+  enable :sessions
+  set :session_secret, 'secret'
 end
 
 post '/login' do
-  if params['username']==settings.username&&params['password']==settings.password
-    response.set_cookie(settings.username,settings.token) 
-    redirect '/'
-  else
-    "Username or Password incorrect"
-  end
+  session[:foo] = params[:username], params[:password]
+  redirect '/'
 end
 
-post('/logout'){ response.set_cookie(settings.username, false) ; redirect '/' }
+post '/logout' do
+  session.clear
+  redirect '/'
+end 
 
 get '/' do
   erb :index
