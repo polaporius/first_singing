@@ -14,13 +14,9 @@ ActiveRecord::Base.establish_connection(
 class User < ActiveRecord::Base
 end
 
-if ActiveRecord::Migration.table :users?
-    ActiveRecord::Migration.create_table :users do |t|
-      t.string :name
-    end
-  else
-    puts "Zopo"
-  end
+ActiveRecord::Migration.create_table :users do |t|
+  t.string :name
+end
 
 configure do
   enable :sessions
